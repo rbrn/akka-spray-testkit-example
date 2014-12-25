@@ -9,14 +9,16 @@ class ChatServiceTest extends Specification with Specs2RouteTest  with ChatServi
   "The service" should {
 
     "return a greeting for GET requests to the root path" in {
-      Get() ~> demoRoute ~> check {
-        entityAs[String] must contain("Say hello")
+      Get() ~> chatRoutes ~> check {
+        entityAs[String] must contain("Please login")
       }
     }
 
-    "return some thing from somethinelse" in {
-      Get("/ping") ~> demoRoute ~> check {
-        entityAs[String] must be matching ("PONG!")
+    "calling login should login the user and return the login" in {
+      Get("/login?username=costin&password=1pass2") ~> chatRoutes ~> check {
+        entityAs[String] must be contain ("costin")
+        entityAs[String] must contain ("and pass is 1pass2")
+
       }
     }
   }
