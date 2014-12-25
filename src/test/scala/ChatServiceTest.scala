@@ -21,6 +21,21 @@ class ChatServiceTest extends Specification with Specs2RouteTest  with ChatServi
 
       }
     }
+
+    "calling api to get messages should return the current history of the conversation" in {
+      Get("/chat/messages") ~> chatRoutes ~> check {
+        entityAs[List[Message]].length must not be null
+        entityAs[List[Message]].length must be 10
+      }
+
+      "calling api to get messages from a certain point should return only those messages filtered" in {
+        Get("/chat/messages/?since=122324234") ~> chatRoutes ~> check {
+          entityAs[List[Message]].length must not be null
+          entityAs[List[Message]].length must be 5
+        }
+      }
+
+    }
   }
 
 }

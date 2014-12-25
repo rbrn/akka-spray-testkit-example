@@ -1,5 +1,6 @@
 
 import akka.actor.{Actor, ActorLogging}
+import akka.remote.transport.AkkaPduCodec.Message
 import authentication.UserAuthentication
 import spray.routing.HttpService
 import spray.routing.authentication.UserPass
@@ -13,6 +14,7 @@ class ChatServiceImpl extends Actor with ChatService with ActorLogging {
   def actorRefFactory = context
 }
 
+case class Message
 trait ChatService extends HttpService with UserAuthentication {
 
   implicit def executionContext = actorRefFactory.dispatcher
